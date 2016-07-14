@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Traffic Control</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <style type="text/css">
+            .round-button {
+                display:block;
+                width:50px;
+                height:50px;
+                line-height:50px;
+                border: 2px solid #f5f5f5;
+                border-radius: 50%;
+                color:#f5f5f5;
+                text-align:center;
+                text-decoration:none;
+                background: #464646;
+                box-shadow: 0 0 3px gray;
+                font-size:20px;
+                font-weight:bold;
+            }
+        </style>
+        <script type="text/javascript">
+            var myVar;
+            var timer;
+            var interval;
+            var statusMoving = "Moving";
+            var statusWaiting = "Waiting";
+            
+            var MovingTimer = 0;
+            
+            var NorthWaitingTimer = 0;
+            var EastWaitingTimer = 0;
+            var WestWaitingTimer = 0;
+            var SouthWaitingTimer = 0;
+            
+            //onload display current timer
+            function startSignalProcessing()
+            {             
+                
+                var dateTime = document.getElementById('DateandTime');
+                        setTimeout(function(){
+                            dateTime.innerHTML = new  Date();
+                            startSignalProcessing();
+                        },1000);
+            }   
+            
+            
+            function northSignalOpen()
+            {                
+                //set the all the variable status and timers
+                //South pole
+                document.getElementById('txtSouthStatus').value = statusWaiting;
+                document.getElementById("btnSouthGreen").style.backgroundColor = "transparent";
+                document.getElementById("btnSouthRed").style.backgroundColor = "red";
+                document.getElementById("btnSouthYellow").style.backgroundColor = "transparent";
+                
+                //North pole
+                document.getElementById('txtNorthStatus').value = statusMoving;
+                document.getElementById("btnNorthGreen").style.backgroundColor = "green";;
+                document.getElementById("btnNorthRed").style.backgroundColor = "transparent";
+                document.getElementById("btnNorthYellow").style.backgroundColor = "transparent";
+                
+                //East pole
+                document.getElementById('txtEastStatus').value = statusWaiting;
+                document.getElementById("btnEastGreen").style.backgroundColor = "transparent";;
+                document.getElementById("btnEastRed").style.backgroundColor = "red";
+                document.getElementById("btnEastYellow").style.backgroundColor = "transparent";
+                
+                //West pole
+                document.getElementById('txtWestStatus').value = statusWaiting;
+                document.getElementById("btnWestGreen").style.backgroundColor = "transparent";;
+                document.getElementById("btnWestRed").style.backgroundColor = "red";
+                document.getElementById("btnWestYellow").style.backgroundColor = "transparent";               
+                
+        
+                MovingTimer = 30;
+                WestWaitingTimer = 90;
+                EastWaitingTimer = 30;                
+                SouthWaitingTimer = 60;
+                
+                interval = setInterval(function() {
+                        //document.getElementById('txtSouthTimer').value = --NorthWaitingTimer; 
+                        document.getElementById('txtNorthTimer').value = --MovingTimer;
+                        document.getElementById('txtSouthTimer').value = --SouthWaitingTimer;
+                        document.getElementById('txtEastTimer').value = --EastWaitingTimer;
+                        document.getElementById('txtWestTimer').value = --WestWaitingTimer;
+                        
+                        if(MovingTimer === 5)
+                        {
+                            document.getElementById("btnNorthYellow").style.backgroundColor = "yellow";
+                            document.getElementById("btnEastYellow").style.backgroundColor = "yellow";
+                        }                        
+                        if (MovingTimer <= 0)
+                        {  
+                           clearInterval(interval);
+                           eastSignalOpen();
+                        }
+                    }, 1000); 
+                    
+                    
+                    
+            }                        
+            function southSignalOpen()
+            {
+                
+                //set the all the variable status and timers
+                //South pole
+                document.getElementById('txtSouthStatus').value = statusMoving;
+                document.getElementById("btnSouthGreen").style.backgroundColor = "green";
+                document.getElementById("btnSouthRed").style.backgroundColor = "transparent";
+                document.getElementById("btnSouthYellow").style.backgroundColor = "transparent";
+                
+                //North pole
+                document.getElementById('txtNorthStatus').value = statusWaiting;
+                document.getElementById("btnNorthGreen").style.backgroundColor = "transparent";;
+                document.getElementById("btnNorthRed").style.backgroundColor = "red";
+                document.getElementById("btnNorthYellow").style.backgroundColor = "transparent";
+                
+                //East pole
+                document.getElementById('txtEastStatus').value = statusWaiting;
+                document.getElementById("btnEastGreen").style.backgroundColor = "transparent";;
+                document.getElementById("btnEastRed").style.backgroundColor = "red";
+                document.getElementById("btnEastYellow").style.backgroundColor = "transparent";
+                
+                //West pole
+                document.getElementById('txtWestStatus').value = statusWaiting;
+                document.getElementById("btnWestGreen").style.backgroundColor = "transparent";;
+                document.getElementById("btnWestRed").style.backgroundColor = "red";
+                document.getElementById("btnWestYellow").style.backgroundColor = "transparent";
+                
+                MovingTimer = 30;
+                NorthWaitingTimer = 60;
+                EastWaitingTimer = 90;
+                WestWaitingTimer = 30;               
+                
+                interval = setInterval(function() {                        
+                        document.getElementById('txtNorthTimer').value = --NorthWaitingTimer;
+                        document.getElementById('txtSouthTimer').value = --MovingTimer;
+                        document.getElementById('txtEastTimer').value = --EastWaitingTimer;
+                        document.getElementById('txtWestTimer').value = --WestWaitingTimer;
+                        
+                        if(MovingTimer === 5)
+                        {
+                            document.getElementById("btnSouthYellow").style.backgroundColor = "yellow";
+                            document.getElementById("btnWestYellow").style.backgroundColor = "yellow";
+                        }
+                        
+                        if (MovingTimer <= 0)
+                        {  
+                           clearInterval(interval);
+                           westSignalOpen();
+                        }
+                    }, 1000); 
+                
+            }
+            function westSignalOpen()
+            {
+                
+                //set the all the variable status and timers
+                //South pole
+                document.getElementById('txtSouthStatus').value = statusWaiting;
+                document.getElementById("btnSouthGreen").style.backgroundColor = "transparent";
+                document.getElementById("btnSouthRed").style.backgroundColor = "red";
+                document.getElementById("btnSouthYellow").style.backgroundColor = "transparent";
+                
+                //North pole
+                document.getElementById('txtNorthStatus').value = statusWaiting;
+                document.getElementById("btnNorthGreen").style.backgroundColor = "transparent";;
+                document.getElementById("btnNorthRed").style.backgroundColor = "red";
+                document.getElementById("btnNorthYellow").style.backgroundColor = "transparent";
+                
+                //East pole
+                document.getElementById('txtEastStatus').value = statusWaiting;
+                document.getElementById("btnEastGreen").style.backgroundColor = "transparent";;
+                document.getElementById("btnEastRed").style.backgroundColor = "red";
+                document.getElementById("btnEastYellow").style.backgroundColor = "transparent";
+                
+                //West pole
+                document.getElementById('txtWestStatus').value = statusMoving;
+                document.getElementById("btnWestGreen").style.backgroundColor = "green";;
+                document.getElementById("btnWestRed").style.backgroundColor = "transparent";
+                document.getElementById("btnWestYellow").style.backgroundColor = "transparent";                               
+                
+                MovingTimer = 30;
+                NorthWaitingTimer = 30;
+                EastWaitingTimer = 60;                
+                SouthWaitingTimer = 90;
+                
+                interval = setInterval(function() {
+                        //document.getElementById('txtSouthTimer').value = --NorthWaitingTimer; 
+                        document.getElementById('txtNorthTimer').value = --NorthWaitingTimer;
+                        document.getElementById('txtSouthTimer').value = --SouthWaitingTimer;
+                        document.getElementById('txtEastTimer').value = --EastWaitingTimer;
+                        document.getElementById('txtWestTimer').value = --MovingTimer;
+                        
+                        if(MovingTimer === 5)
+                        {
+                            document.getElementById("btnWestYellow").style.backgroundColor = "yellow";
+                            document.getElementById("btnNorthYellow").style.backgroundColor = "yellow";
+                        }                        
+                        if (MovingTimer <= 0)
+                        {  
+                           clearInterval(interval);
+                           northSignalOpen();
+                        }
+                    }, 1000); 
+                    
+                
+            }
+            function eastSignalOpen()
+            {                
+                //set the all the variable status and timers
+                //South pole
+                document.getElementById('txtSouthStatus').value = statusWaiting;
+                document.getElementById("btnSouthGreen").style.backgroundColor = "transparent";
+                document.getElementById("btnSouthRed").style.backgroundColor = "red";
+                document.getElementById("btnSouthYellow").style.backgroundColor = "transparent";
+                
+                //North pole
+                document.getElementById('txtNorthStatus').value = statusWaiting;
+                document.getElementById("btnNorthGreen").style.backgroundColor = "transparent";;
+                document.getElementById("btnNorthRed").style.backgroundColor = "red";
+                document.getElementById("btnNorthYellow").style.backgroundColor = "transparent";
+                
+                //East pole
+                document.getElementById('txtEastStatus').value = statusMoving;
+                document.getElementById("btnEastGreen").style.backgroundColor = "green";;
+                document.getElementById("btnEastRed").style.backgroundColor = "transparent";
+                document.getElementById("btnEastYellow").style.backgroundColor = "transparent";
+                
+                //West pole
+                document.getElementById('txtWestStatus').value = statusWaiting;
+                document.getElementById("btnWestGreen").style.backgroundColor = "transparent";;
+                document.getElementById("btnWestRed").style.backgroundColor = "red";
+                document.getElementById("btnWestYellow").style.backgroundColor = "transparent";               
+                
+                MovingTimer = 30;
+                WestWaitingTimer = 60;
+                NorthWaitingTimer = 90;                
+                SouthWaitingTimer = 30;
+                
+                interval = setInterval(function() {                        
+                        document.getElementById('txtNorthTimer').value = --NorthWaitingTimer;
+                        document.getElementById('txtSouthTimer').value = --SouthWaitingTimer;
+                        document.getElementById('txtEastTimer').value = --MovingTimer;
+                        document.getElementById('txtWestTimer').value = --WestWaitingTimer;
+                        
+                        if(MovingTimer === 5)
+                        {
+                            document.getElementById("btnEastYellow").style.backgroundColor = "yellow";
+                            document.getElementById("btnSouthYellow").style.backgroundColor = "yellow";
+                        }
+                        
+                        if (MovingTimer <= 0)
+                        {  
+                           clearInterval(interval);
+                           southSignalOpen();
+                        }
+                    }, 1000); 
+            }
+            
+            //To override the signal on button click
+            function manualHandling(direction)
+            {
+                
+                switch(direction)
+                {
+                    case 'North':
+                        clearInterval(interval);
+                        northSignalOpen();
+                        break;
+                    case 'South':
+                        clearInterval(interval);
+                        southSignalOpen();
+                        break; 
+                    case 'East':
+                        clearInterval(interval);
+                        eastSignalOpen();
+                        break; 
+                    case 'West':
+                        clearInterval(interval);
+                        westSignalOpen();
+                        break; 
+                }
+            }
+            
+            
+        </script>
+    </head>
+    <body onload="startSignalProcessing();">
+        <table style="border: 1px solid black;height: 700px;width: 1500px;color: lightgray;">
+            <tr style="text-align: center;">
+                <td colspan="9" style="text-align: center;background-color: lavender;color: blue;">Traffic Control System                
+                    <div id="DateandTime"></div>                  
+                    <input type="button" onclick="southSignalOpen()" value="Start"/>
+                </td>                
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>                
+                <td style="border: 1px solid black;height: 60px;width: 80px;">
+                    <label id="lblNorth">North</label>
+                    <input type="text" id="txtNorthStatus" />                    
+                    <table>
+                        <tr>
+                            <td>                                
+                                <input type="button" id="btnNorthRed" class="round-button" />
+                            </td>
+                             <td>                                
+                                <input type="button" id="btnNorthGreen" class="round-button" />
+                            </td>
+                             <td>                                
+                                 <input type="button" id="btnNorthYellow" class="round-button" />
+                            </td>
+                             <td>
+                                 <input type="text" id="txtNorthTimer"/>
+                            </td>
+                        </tr>
+                    </table>                    
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <span>Manual Handling(Turns to Green)</span><br />
+                    <input type="button" value="North" onclick="manualHandling('North')" />
+                    <input type="button" value="South" onclick="manualHandling('South')"/>
+                    <input type="button" value="East" onclick="manualHandling('East')"/>
+                    <input type="button" value="West" onclick="manualHandling('West')"/>
+                </td>
+            </tr>
+            <tr></tr>
+            <tr></tr>
+            <tr>
+                <td style="border: 1px solid black;height: 100px;width: 60px;">                    
+                    <table>
+                        <tr>
+                            <td>
+                                <label id="lblWest">West</label>
+                                <input type="text" id="txtWestStatus" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>                                
+                                <input type="button" id="btnWestRed" class="round-button" />
+                            </td>
+                        </tr>
+                        <tr>
+                           <td>                                
+                                <input type="button" id="btnWestGreen" class="round-button" />
+                            </td> 
+                        </tr>
+                        <tr>
+                            <td>                                
+                                 <input type="button" id="btnWestYellow" class="round-button" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                 <input type="text" id="txtWestTimer"/>
+                            </td>
+                        </tr>
+                    </table>                    
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>                   
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="border: 1px solid black;height: 60px;width: 80px;">
+                    
+                    <table>
+                        <tr>
+                           <label id="lblEast">East</label>
+                           <input type="text" id="txtEastStatus" /> 
+                        </tr>
+                        <tr>
+                            <td>                                
+                                <input type="button" id="btnEastRed" class="round-button" />
+                            </td>
+                        </tr>
+                        <tr>
+                             <td>                                
+                                <input type="button" id="btnEastGreen" class="round-button" />
+                            </td>
+                        </tr>
+                        <tr>
+                             <td>                                
+                                 <input type="button" id="btnEastYellow" class="round-button" />
+                            </td>
+                        </tr>
+                        <tr>
+                             <td>
+                                 <input type="text" id="txtEastTimer"/>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr></tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>                
+                <td style="border: 1px solid black;height: 60px;width: 80px;">
+                    <label id="lblSouth">South</label>
+                    <input type="text" id="txtSouthStatus" />
+                    <table>
+                        <tr>
+                            <td>                                
+                                <input type="button" id="btnSouthRed" class="round-button" />
+                            </td>
+                             <td>                                
+                                <input type="button" id="btnSouthGreen" class="round-button" />
+                            </td>
+                             <td>                                
+                                 <input type="button" id="btnSouthYellow" class="round-button" />
+                            </td>
+                             <td>
+                                 <input type="text" id="txtSouthTimer"/>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>                
+            </tr>
+            <tr>
+<!--                <div id="divVehicles" style="background:#98bf21;height:40px;width:200px;position:absolute;">VEHICLES</div>
+                <div id="divWalk" style="background:#98bf21;height:40px;width:200px;position:absolute;visibility: hidden;">PEDESTRAIN WALK</div>                -->
+            </tr>
+        </table>
+        
+    </body>
+</html>
